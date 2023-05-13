@@ -4,32 +4,38 @@ import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity';
+import { BaseService } from 'src/commons/service.commons';
 
 @Injectable()
-export class StudentsService {
+export class StudentsService extends BaseService<Student> {
   constructor(
     @InjectRepository(Student)
-    private stutdenteRepository: Repository<Student>,
-  ) {}
-
-  create(createStudentDto: CreateStudentDto) {
-    const newStudent = this.stutdenteRepository.create(createStudentDto);
-    return this.stutdenteRepository.save(newStudent);
+    private studenteRepository: Repository<Student>,
+  ) {
+    super();
+  }
+  getRepository(): Repository<Student> {
+    return this.studenteRepository;
   }
 
-  findAll() {
-    return `This action returns all students`;
-  }
+  // create(createStudentDto: CreateStudentDto) {
+  //   const newStudent = this.stutdenteRepository.create(createStudentDto);
+  //   return this.stutdenteRepository.save(newStudent);
+  // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
-  }
+  // findAll() {
+  //   return `This action returns all students`;
+  // }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} student`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
-  }
+  // update(id: number, updateStudentDto: UpdateStudentDto) {
+  //   return `This action updates a #${id} student`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} student`;
+  // }
 }
