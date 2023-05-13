@@ -5,6 +5,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Student } from './students/entities/student.entity';
 import { StudentsModule } from './students/students.module';
+import { MonitorModule } from './monitor/monitor.module';
+import { Monitor } from './monitor/entities/monitor.entity';
+import { ProfessorModule } from './professor/professor.module';
+import { Professor } from './professor/entities/professor.entity';
 
 @Module({
   imports: [
@@ -18,9 +22,11 @@ import { StudentsModule } from './students/students.module';
       username: process.env.MYSQLUSER,
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
-      entities: [Student],
+      entities: [Student, Monitor, Professor],
     }),
     StudentsModule,
+    MonitorModule,
+    ProfessorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,7 @@
 import { Column, Entity } from 'typeorm';
 
 @Entity()
-export class Student {
+export class Professor {
   @Column({ primary: true, unique: true })
   id: number;
   @Column({})
@@ -11,7 +11,7 @@ export class Student {
   @Column({ length: 45 })
   email: string;
   @Column({ length: 45 })
-  career: string;
+  degree: string;
   @Column({ length: 45 })
   password: string;
 }
