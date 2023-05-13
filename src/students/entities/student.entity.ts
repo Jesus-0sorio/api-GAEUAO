@@ -2,14 +2,14 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class Student {
-  @Column()
-  codigo: number;
-  @Column()
-  nombre: string;
-  @Column()
-  correo: string;
-  @Column()
-  carrera: string;
-  @Column()
-  contraseña: string;
+  @Column({ primary: true, unique: true })
+  code: number;
+  @Column({ length: 45 })
+  name: string;
+  @Column({ length: 45 })
+  email: string;
+  @Column({ length: 45 })
+  career: string;
+  @Column({ length: 45 })
+  password: string;
 }
