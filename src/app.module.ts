@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppService } from './app.service';
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
     }),
+    StudentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
