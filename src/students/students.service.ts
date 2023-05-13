@@ -18,11 +18,6 @@ export class StudentsService extends BaseService<Student> {
     return this.studenteRepository;
   }
 
-  // create(createStudentDto: CreateStudentDto) {
-  //   const newStudent = this.stutdenteRepository.create(createStudentDto);
-  //   return this.stutdenteRepository.save(newStudent);
-  // }
-
   // findAll() {
   //   return `This action returns all students`;
   // }
