@@ -3,12 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Monitor } from './monitor/entities/monitor.entity';
+import { MonitorModule } from './monitor/monitor.module';
+import { Monitoring } from './monitoring/entities/monitoring.entity';
+import { MonitoringModule } from './monitoring/monitoring.module';
+import { Professor } from './professor/entities/professor.entity';
+import { ProfessorModule } from './professor/professor.module';
 import { Student } from './students/entities/student.entity';
 import { StudentsModule } from './students/students.module';
-import { MonitorModule } from './monitor/monitor.module';
-import { Monitor } from './monitor/entities/monitor.entity';
-import { ProfessorModule } from './professor/professor.module';
-import { Professor } from './professor/entities/professor.entity';
 
 @Module({
   imports: [
@@ -22,11 +24,12 @@ import { Professor } from './professor/entities/professor.entity';
       username: process.env.MYSQLUSER,
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
-      entities: [Student, Monitor, Professor],
+      entities: [Student, Monitor, Professor, Monitoring],
     }),
     StudentsModule,
     MonitorModule,
     ProfessorModule,
+    MonitoringModule,
   ],
   controllers: [AppController],
   providers: [AppService],
