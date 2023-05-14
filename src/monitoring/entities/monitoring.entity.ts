@@ -1,3 +1,5 @@
+import { Monitor } from 'src/monitor/entities/monitor.entity';
+import { Professor } from 'src/professor/entities/professor.entity';
 import { Student } from 'src/students/entities/student.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
@@ -16,8 +18,10 @@ export class Monitoring {
   @OneToOne(() => Student)
   @JoinColumn({ name: 'student_id' })
   student_id: number;
-  @Column()
+  @OneToOne(() => Professor)
+  @JoinColumn({ name: 'professor_id' })
   professor_id: number;
-  @Column()
+  @OneToOne(() => Monitor)
+  @JoinColumn({ name: 'monitor_id' })
   monitor_id: number;
 }

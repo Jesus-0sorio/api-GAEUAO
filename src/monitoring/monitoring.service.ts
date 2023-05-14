@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMonitoringDto } from './dto/create-monitoring.dto';
@@ -11,33 +11,98 @@ export class MonitoringService {
     @InjectRepository(Monitoring)
     private monitoringRepository: Repository<Monitoring>,
   ) {}
-  create(createMonitoringDto: CreateMonitoringDto) {
-    console.log(createMonitoringDto);
-    const newMonitoring = this.monitoringRepository.create(createMonitoringDto);
-    return this.monitoringRepository.save(newMonitoring);
+  async create(createMonitoringDto: CreateMonitoringDto) {
+    try {
+      const newMonitoring = await this.monitoringRepository.create(
+        createMonitoringDto,
+      );
+      return await this.monitoringRepository.save(newMonitoring);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  findAll() {
-    return this.monitoringRepository.find();
+  async findAll() {
+    try {
+      return await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .getMany();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  findOne(id: number) {
-    return this.monitoringRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    try {
+      return await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.id = :id', { id: id })
+        .getOne();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  findOneByMonitorId(id: number) {
-    return this.monitoringRepository.findOne({ where: { monitor_id: id } });
+  async findOneByMonitorId(id: number) {
+    try {
+      return await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitor_id = :id', { id: id })
+        .getOne();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   findOneByProfessorId(id: number) {
-    return this.monitoringRepository.findOne({ where: { professor_id: id } });
+    try {
+      return this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.professor_id = :id', { id: id });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  update(id: number, updateMonitoringDto: UpdateMonitoringDto) {
-    return this.monitoringRepository.update(id, updateMonitoringDto);
+  async update(id: number, updateMonitoringDto: UpdateMonitoringDto) {
+    try {
+      if (
+        (await this.monitoringRepository.findOne({ where: { id } })) == null
+      ) {
+        throw new HttpException(
+          'The monitoring with the given id was not found',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return this.monitoringRepository.update(id, updateMonitoringDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  remove(id: number) {
-    return this.monitoringRepository.delete(id);
+  async remove(id: number) {
+    try {
+      if (
+        (await this.monitoringRepository.findOne({ where: { id } })) == null
+      ) {
+        throw new HttpException(
+          'The monitoring with the given id was not found',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return this.monitoringRepository.delete(id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

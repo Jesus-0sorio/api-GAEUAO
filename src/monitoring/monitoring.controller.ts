@@ -16,8 +16,8 @@ export class MonitoringController {
   constructor(private readonly monitoringService: MonitoringService) {}
 
   @Post()
-  async create(@Body() createMonitoringDto: CreateMonitoringDto) {
-    return await this.monitoringService.create(createMonitoringDto);
+  create(@Body() createMonitoringDto: CreateMonitoringDto) {
+    return this.monitoringService.create(createMonitoringDto);
   }
 
   @Get()
@@ -41,15 +41,15 @@ export class MonitoringController {
   }
 
   @Patch(':id')
-  async update(
+  update(
     @Param('id') id: string,
     @Body() updateMonitoringDto: UpdateMonitoringDto,
   ) {
-    return await this.monitoringService.update(+id, updateMonitoringDto);
+    return this.monitoringService.update(+id, updateMonitoringDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.monitoringService.remove(+id);
+  remove(@Param('id') id: string) {
+    return this.monitoringService.remove(+id);
   }
 }
