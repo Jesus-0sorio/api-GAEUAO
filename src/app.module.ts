@@ -11,6 +11,9 @@ import { Professor } from './professor/entities/professor.entity';
 import { ProfessorModule } from './professor/professor.module';
 import { Student } from './students/entities/student.entity';
 import { StudentsModule } from './students/students.module';
+import { SubjectModule } from './subject/subject.module';
+import { Subject } from './subject/entities/subject.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,12 +27,14 @@ import { StudentsModule } from './students/students.module';
       username: process.env.MYSQLUSER,
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
-      entities: [Student, Monitor, Professor, Monitoring],
+      entities: [Student, Monitor, Professor, Monitoring, Subject],
     }),
     StudentsModule,
     MonitorModule,
     ProfessorModule,
     MonitoringModule,
+    SubjectModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
