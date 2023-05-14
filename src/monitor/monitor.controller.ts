@@ -14,29 +14,4 @@ export class MonitorController extends BaseController<Monitor> {
   getService(): BaseService<Monitor> {
     return this.monitorService;
   }
-
-  // @Post()
-  // create(@Body() createMonitorDto: CreateMonitorDto) {
-  //   return this.monitorService.create(createMonitorDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.monitorService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.monitorService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateMonitorDto: UpdateMonitorDto) {
-  //   return this.monitorService.update(+id, updateMonitorDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.monitorService.remove(+id);
-  // }
 }
