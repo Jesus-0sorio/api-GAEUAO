@@ -8,6 +8,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('GAEUAO DOCUMENTATION')
     .setDescription('The GAEUAO API description')
     .setVersion('1.0')
