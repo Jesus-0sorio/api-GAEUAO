@@ -1,19 +1,12 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { ProfessorService } from './professor.service';
-import { CreateProfessorDto } from './dto/create-professor.dto';
-import { UpdateProfessorDto } from './dto/update-professor.dto';
+import { Controller } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/commons/controller.commons';
 import { BaseService } from 'src/commons/service.commons';
 import { Professor } from './entities/professor.entity';
+import { ProfessorService } from './professor.service';
 
+@ApiTags('professor')
+@ApiBearerAuth()
 @Controller('professor')
 export class ProfessorController extends BaseController<Professor> {
   constructor(private readonly professorService: ProfessorService) {
@@ -22,32 +15,4 @@ export class ProfessorController extends BaseController<Professor> {
   getService(): BaseService<Professor> {
     return this.professorService;
   }
-
-  // @Post()
-  // create(@Body() createProfessorDto: CreateProfessorDto) {
-  //   return this.professorService.create(createProfessorDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.professorService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.professorService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateProfessorDto: UpdateProfessorDto,
-  // ) {
-  //   return this.professorService.update(+id, updateProfessorDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.professorService.remove(+id);
-  // }
 }
