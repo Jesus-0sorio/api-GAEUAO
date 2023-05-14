@@ -7,10 +7,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateMonitoringDto } from './dto/create-monitoring.dto';
 import { UpdateMonitoringDto } from './dto/update-monitoring.dto';
 import { MonitoringService } from './monitoring.service';
 
+@ApiTags('monitoring')
+@ApiBearerAuth()
 @Controller('monitoring')
 export class MonitoringController {
   constructor(private readonly monitoringService: MonitoringService) {}
