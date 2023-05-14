@@ -11,6 +11,7 @@ export class MonitoringService {
     @InjectRepository(Monitoring)
     private monitoringRepository: Repository<Monitoring>,
   ) {}
+
   async create(createMonitoringDto: CreateMonitoringDto) {
     try {
       const newMonitoring = await this.monitoringRepository.create(
@@ -37,13 +38,17 @@ export class MonitoringService {
 
   async findOne(id: number) {
     try {
-      return await this.monitoringRepository
+      const monitoring = await this.monitoringRepository
         .createQueryBuilder('monitoring')
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.id = :id', { id: id })
         .getOne();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -51,24 +56,33 @@ export class MonitoringService {
 
   async findOneByMonitorId(id: number) {
     try {
-      return await this.monitoringRepository
+      const monitoring = await this.monitoringRepository
         .createQueryBuilder('monitoring')
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.monitor_id = :id', { id: id })
         .getOne();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
-  findOneByProfessorId(id: number) {
+  async findOneByProfessorId(id: number) {
     try {
-      return this.monitoringRepository
+      const monitoring = await this.monitoringRepository
         .createQueryBuilder('monitoring')
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.professor_id = :id', { id: id });
+
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
