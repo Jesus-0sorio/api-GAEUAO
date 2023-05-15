@@ -179,6 +179,27 @@ export class MonitoringService {
     }
   }
 
+  async findAllHistory(id: number) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.student_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Finalizada',
+        })
+        .getMany();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async update(id: number, updateMonitoringDto: UpdateMonitoringDto) {
     try {
       if (

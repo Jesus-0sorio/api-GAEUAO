@@ -63,6 +63,11 @@ export class MonitoringController {
     return await this.monitoringService.findAllBySchedule(schedule);
   }
 
+  @Get('history/:id')
+  async findAllHistory(@Param('id') id: string) {
+    return await this.monitoringService.findAllHistory(+id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
