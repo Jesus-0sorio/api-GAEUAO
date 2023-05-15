@@ -155,6 +155,27 @@ export class MonitoringService {
     }
   }
 
+  async findAllBySchedule(schedule: string) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .where('monitoring.monitor_date = :schedule', { schedule: schedule })
+        .getMany();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async update(id: number, updateMonitoringDto: UpdateMonitoringDto) {
     try {
       if (

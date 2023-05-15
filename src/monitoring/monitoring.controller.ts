@@ -58,6 +58,11 @@ export class MonitoringController {
     return await this.monitoringService.findOneByStudentId(+id);
   }
 
+  @Get('schedule/:schedule')
+  async findAllBySchedule(@Param('schedule') schedule: string) {
+    return await this.monitoringService.findAllBySchedule(schedule);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

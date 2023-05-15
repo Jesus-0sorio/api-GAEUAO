@@ -31,7 +31,7 @@ export class MonitorSubjectController {
   // }
 
   @Get(':id')
-  findAllByProfessorId(@Param('id') id: string) {
+  findAllBySubjectId(@Param('id') id: string) {
     return this.monitorSubjectService.findAllBySubjectId(+id);
   }
 
