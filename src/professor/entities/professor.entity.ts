@@ -1,4 +1,5 @@
-import { Column, Entity } from 'typeorm';
+import { ProfessorSubject } from 'src/monitor_subject/entities/professor_subject.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Professor {
@@ -14,4 +15,10 @@ export class Professor {
   degree: string;
   @Column({ length: 45, select: false })
   password: string;
+
+  @OneToMany(
+    () => ProfessorSubject,
+    (professorSubject) => professorSubject.professor_id,
+  )
+  professorSubject: ProfessorSubject[];
 }

@@ -14,6 +14,8 @@ import { StudentsModule } from './students/students.module';
 import { SubjectModule } from './subject/subject.module';
 import { Subject } from './subject/entities/subject.entity';
 import { AuthModule } from './auth/auth.module';
+import { MonitorSubjectModule } from './monitor_subject/monitor_subject.module';
+import { ProfessorSubject } from './monitor_subject/entities/professor_subject.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,14 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.MYSQLUSER,
       password: process.env.MYSQLPASSWORD,
       database: process.env.MYSQLDATABASE,
-      entities: [Student, Monitor, Professor, Monitoring, Subject],
+      entities: [
+        Student,
+        Monitor,
+        Professor,
+        Monitoring,
+        Subject,
+        ProfessorSubject,
+      ],
     }),
     StudentsModule,
     MonitorModule,
@@ -35,6 +44,7 @@ import { AuthModule } from './auth/auth.module';
     MonitoringModule,
     SubjectModule,
     AuthModule,
+    MonitorSubjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
