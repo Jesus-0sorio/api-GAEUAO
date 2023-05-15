@@ -31,6 +31,10 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -66,8 +70,31 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.monitoring_status = :status', { status: 'Proxima' })
         .where('monitoring.student_id = :id', { id: id })
+        .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
       return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findAllBySubject(name: string) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .where('subject.subject_name = :subject', { subject: name })
+        .orderBy('monitoring.monitor_date', 'ASC')
+        .getMany();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

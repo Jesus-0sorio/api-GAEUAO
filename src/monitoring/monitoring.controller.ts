@@ -38,6 +38,11 @@ export class MonitoringController {
     return await this.monitoringService.findAllUpcoming(+id);
   }
 
+  @Get('subject/:name')
+  async findAllBySubjectName(@Param('name') name: string) {
+    return await this.monitoringService.findAllBySubject(name);
+  }
+
   @Get('monitor/:id')
   async findOneByMonitorCode(@Param('id') id: string) {
     return await this.monitoringService.findOneByMonitorId(+id);
