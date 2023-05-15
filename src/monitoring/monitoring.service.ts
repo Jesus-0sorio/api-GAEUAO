@@ -78,18 +78,17 @@ export class MonitoringService {
     }
   }
 
-  async findAllBySubject(name: string) {
+  async findAllBySubject(id: number) {
     try {
       const monitoring = await this.monitoringRepository
         .createQueryBuilder('monitoring')
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.subject_id = :id', { id: id })
         .where('monitoring.monitoring_status = :status', {
           status: 'Disponible',
         })
-        .where('subject.subject_name = :subject', { subject: name })
-        .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
       if (monitoring) {
         return monitoring;
