@@ -1,3 +1,4 @@
+import { Subject } from 'src/subject/entities/subject.entity';
 import { Monitor } from 'src/monitor/entities/monitor.entity';
 import { Professor } from 'src/professor/entities/professor.entity';
 import { Student } from 'src/students/entities/student.entity';
@@ -15,6 +16,9 @@ export class Monitoring {
   monitoring_status: string;
   @Column('varchar', { length: 45 })
   comment: string;
+  @OneToOne(() => Subject)
+  @JoinColumn({ name: 'subject_id' })
+  subject_id: number;
   @OneToOne(() => Student)
   @JoinColumn({ name: 'student_id' })
   student_id: number;
