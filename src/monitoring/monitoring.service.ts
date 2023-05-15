@@ -31,6 +31,10 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -64,10 +68,35 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.student_id', 'student')
-        .where('monitoring.monitoring_status = :status', { status: 'Proxima' })
         .where('monitoring.student_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Proxima',
+        })
+        .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
       return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findAllBySubject(id: number) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.subject_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .getMany();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -117,8 +146,52 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .where('monitoring.student_id = :id', { id: id })
         .getOne();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findAllBySchedule(schedule: string) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', {
+          status: 'Disponible',
+        })
+        .where('monitoring.monitor_date = :schedule', { schedule: schedule })
+        .getMany();
+      if (monitoring) {
+        return monitoring;
+      }
+      throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findAllHistory(id: number) {
+    try {
+      const monitoring = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.subject_id', 'subject')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.student_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Finalizada',
+        })
+        .getMany();
       if (monitoring) {
         return monitoring;
       }

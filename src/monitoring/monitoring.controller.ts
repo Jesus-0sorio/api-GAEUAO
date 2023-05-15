@@ -38,6 +38,11 @@ export class MonitoringController {
     return await this.monitoringService.findAllUpcoming(+id);
   }
 
+  @Get('subject/:id')
+  async findAllBySubjectName(@Param('id') id: string) {
+    return await this.monitoringService.findAllBySubject(+id);
+  }
+
   @Get('monitor/:id')
   async findOneByMonitorCode(@Param('id') id: string) {
     return await this.monitoringService.findOneByMonitorId(+id);
@@ -51,6 +56,16 @@ export class MonitoringController {
   @Get('student/:id')
   async findOneByStudentCode(@Param('id') id: string) {
     return await this.monitoringService.findOneByStudentId(+id);
+  }
+
+  @Get('schedule/:schedule')
+  async findAllBySchedule(@Param('schedule') schedule: string) {
+    return await this.monitoringService.findAllBySchedule(schedule);
+  }
+
+  @Get('history/:id')
+  async findAllHistory(@Param('id') id: string) {
+    return await this.monitoringService.findAllHistory(+id);
   }
 
   @Patch(':id')
