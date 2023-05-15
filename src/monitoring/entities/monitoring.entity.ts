@@ -10,6 +10,8 @@ export class Monitoring {
   id: number;
   @Column('date')
   monitor_date: Date;
+  @Column('time')
+  monitor_time: Date;
   @Column('varchar', { length: 45 })
   classroom: string;
   @Column('varchar', { length: 45 })
