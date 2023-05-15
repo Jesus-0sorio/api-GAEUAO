@@ -10,6 +10,8 @@ export class Monitoring {
   id: number;
   @Column('varchar')
   topic: string;
+  @Column('varchar')
+  reason: string;
   @Column('date')
   monitor_date: Date;
   @Column('time')
