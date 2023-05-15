@@ -17,9 +17,11 @@ export class AuthService {
 
   async login(loginAuthDto: LoginAuthDto) {
     const { email, password } = loginAuthDto;
-    const userExist = await this.studentRepository.findOne({
-      where: { email },
-    });
+    const userExist = await this.studentRepository
+      .createQueryBuilder('student')
+      .where('student.email = :email', { email })
+      .addSelect('student.password')
+      .getOne();
     const isCheck = await compareHash(password, userExist.password);
     if (!userExist || !isCheck) {
       throw new HttpException(

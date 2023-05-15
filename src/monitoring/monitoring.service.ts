@@ -36,22 +36,6 @@ export class MonitoringService {
     }
   }
 
-  async findAllUpcoming(id: number) {
-    try {
-      const result = await this.monitoringRepository
-        .createQueryBuilder('monitoring')
-        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
-        .leftJoinAndSelect('monitoring.professor_id', 'professor')
-        .leftJoinAndSelect('monitoring.student_id', 'student')
-        .where('monitoring.monitoring_status = :status', { status: 'Proxima' })
-        .where('monitoring.student_id = :id', { id: id })
-        .getMany();
-      return result;
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
   async findOne(id: number) {
     try {
       const monitoring = await this.monitoringRepository
@@ -65,6 +49,22 @@ export class MonitoringService {
         return monitoring;
       }
       throw new HttpException('Monitoring not found', HttpStatus.NOT_FOUND);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findAllUpcoming(id: number) {
+    try {
+      const result = await this.monitoringRepository
+        .createQueryBuilder('monitoring')
+        .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
+        .leftJoinAndSelect('monitoring.student_id', 'student')
+        .where('monitoring.monitoring_status = :status', { status: 'Proxima' })
+        .where('monitoring.student_id = :id', { id: id })
+        .getMany();
+      return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
