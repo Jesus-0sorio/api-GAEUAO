@@ -1,4 +1,5 @@
-import { Column, Entity } from 'typeorm';
+import { MonitorSubject } from 'src/monitor_subject/entities/monitor_subject.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Monitor {
@@ -12,4 +13,10 @@ export class Monitor {
   email: string;
   @Column({ length: 45, select: false })
   password: string;
+
+  @OneToMany(
+    () => MonitorSubject,
+    (monitorSubject) => monitorSubject.monitor_id,
+  )
+  monitor_subject: MonitorSubject[];
 }

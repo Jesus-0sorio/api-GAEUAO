@@ -30,9 +30,9 @@ export class MonitorSubjectController {
   //   return this.monitorSubjectService.findOne(+id);
   // }
 
-  @Get('professor/:id')
+  @Get(':id')
   findAllByProfessorId(@Param('id') id: string) {
-    return this.monitorSubjectService.findAllByProfessorId(+id);
+    return this.monitorSubjectService.findAllBySubjectId(+id);
   }
 
   // @Patch(':id')

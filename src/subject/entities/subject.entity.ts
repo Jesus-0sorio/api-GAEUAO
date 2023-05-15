@@ -13,4 +13,10 @@ export class Subject {
     (professorSubject) => professorSubject.subject_id,
   )
   professor_subject: ProfessorSubject[];
+
+  @OneToMany(
+    () => ProfessorSubject,
+    (professorSubject) => professorSubject.subject_id,
+  )
+  monitor_subject: ProfessorSubject[];
 }
