@@ -68,8 +68,10 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.student_id', 'student')
-        .where('monitoring.monitoring_status = :status', { status: 'Proxima' })
         .where('monitoring.student_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Proxima',
+        })
         .orderBy('monitoring.monitor_date', 'ASC')
         .getMany();
       return result;
@@ -144,10 +146,8 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .where('monitoring.student_id = :id', { id: id })
-        .andWhere('monitoring.monitoring_status = :status', {
-          status: 'Proxima',
-        })
         .getOne();
       if (monitoring) {
         return monitoring;
