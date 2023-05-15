@@ -145,6 +145,9 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.student_id = :id', { id: id })
+        .andWhere('monitoring.monitoring_status = :status', {
+          status: 'Proxima',
+        })
         .getOne();
       if (monitoring) {
         return monitoring;
