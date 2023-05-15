@@ -11,7 +11,9 @@ export class Monitoring {
   @Column('date')
   monitor_date: Date;
   @Column('time')
-  monitor_time: Date;
+  start_time: Date;
+  @Column('time')
+  end_time: Date;
   @Column('varchar', { length: 45 })
   classroom: string;
   @Column('varchar', { length: 45 })
