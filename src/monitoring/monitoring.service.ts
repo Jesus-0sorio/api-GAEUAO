@@ -184,6 +184,7 @@ export class MonitoringService {
       const monitoring = await this.monitoringRepository
         .createQueryBuilder('monitoring')
         .leftJoinAndSelect('monitoring.monitor_id', 'monitor')
+        .leftJoinAndSelect('monitoring.professor_id', 'professor')
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.student_id = :id', { id: id })
