@@ -33,6 +33,11 @@ export class MonitoringController {
     return await this.monitoringService.findOne(+id);
   }
 
+  @Get('upcoming/:id')
+  async findAllUpcoming(@Param('id') id: string) {
+    return await this.monitoringService.findAllUpcoming(+id);
+  }
+
   @Get('monitor/:id')
   async findOneByMonitorCode(@Param('id') id: string) {
     return await this.monitoringService.findOneByMonitorId(+id);
@@ -41,6 +46,11 @@ export class MonitoringController {
   @Get('professor/:id')
   async findOneByProfessorCode(@Param('id') id: string) {
     return await this.monitoringService.findOneByProfessorId(+id);
+  }
+
+  @Get('student/:id')
+  async findOneByStudentCode(@Param('id') id: string) {
+    return await this.monitoringService.findOneByStudentId(+id);
   }
 
   @Patch(':id')

@@ -12,6 +12,6 @@ export class Student {
   email: string;
   @Column({ length: 45 })
   career: string;
-  @Column({ length: 45 })
+  @Column({ length: 45, select: false })
   password: string;
 }

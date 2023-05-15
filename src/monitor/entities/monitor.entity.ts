@@ -10,6 +10,6 @@ export class Monitor {
   name: string;
   @Column({ length: 45 })
   email: string;
-  @Column({ length: 45 })
+  @Column({ length: 45, select: false })
   password: string;
 }
