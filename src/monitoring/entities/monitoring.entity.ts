@@ -8,6 +8,8 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 export class Monitoring {
   @Column({ primary: true, unique: true })
   id: number;
+  @Column('varchar')
+  topic: string;
   @Column('date')
   monitor_date: Date;
   @Column('time')
