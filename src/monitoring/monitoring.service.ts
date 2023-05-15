@@ -86,7 +86,7 @@ export class MonitoringService {
         .leftJoinAndSelect('monitoring.subject_id', 'subject')
         .leftJoinAndSelect('monitoring.student_id', 'student')
         .where('monitoring.subject_id = :id', { id: id })
-        .where('monitoring.monitoring_status = :status', {
+        .andWhere('monitoring.monitoring_status = :status', {
           status: 'Disponible',
         })
         .getMany();
